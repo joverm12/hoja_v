@@ -63,8 +63,15 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
 
-# CONFIGURACIÓN MAESTRA DE CLOUDINARY
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# --- NUEVA CONFIGURACIÓN PARA DJANGO 6.0 ---
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
@@ -73,6 +80,4 @@ CLOUDINARY_STORAGE = {
 }
 
 MEDIA_URL = '/media/'
-# NO AGREGUES MEDIA_ROOT
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

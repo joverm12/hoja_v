@@ -4,10 +4,9 @@ from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'proyecto_hv.settings')
 
-# Configuración forzada con tus llaves activas
 cloudinary.config( 
-  cloud_name = "drhblvng5", 
-  api_key = "945383893211668", 
+  cloud_name = os.environ.get('CLOUDINARY_CLOUD_NAME'), 
+  api_key = os.environ.get('CLOUDINARY_API_KEY'), 
   api_secret = os.environ.get('CLOUDINARY_API_SECRET'),
   secure = True
 )
