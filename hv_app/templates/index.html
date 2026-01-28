@@ -1,3 +1,5 @@
+{% load static %}
+{% load cloudinary %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,29 +8,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        /* --- ESTILOS GENERALES --- */
         :root { --sidebar-bg: #1e293b; --accent: #38bdf8; }
         body { display: flex; background: #f1f5f9; font-family: 'Inter', sans-serif; min-height: 100vh; }
-        
-        /* Barra Lateral */
         .sidebar { width: 280px; background: var(--sidebar-bg); height: 100vh; position: fixed; color: white; padding: 25px; z-index: 100; }
         .main { margin-left: 280px; width: calc(100% - 280px); padding: 40px; }
-        
-        /* Botones de Navegación */
         .nav-btn { width: 100%; text-align: left; padding: 12px; margin-bottom: 8px; border-radius: 12px; color: #94a3b8; border: none; background: none; cursor: pointer; transition: 0.3s; }
         .nav-btn:hover, .btn-active { background: #334155; color: var(--accent); }
-        
-        /* Vistas de Sección */
         .section-view { display: none; background: white; padding: 40px; border-radius: 24px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
         .active { display: block; animation: fadeIn 0.4s ease-out; }
-        
-        /* Multimedia */
         .profile-img { width: 180px; height: 180px; object-fit: cover; border: 6px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
         .badge-skill { background: #f0f9ff; color: #0369a1; padding: 8px 16px; border-radius: 50px; margin: 4px; display: inline-block; font-weight: 500; border: 1px solid #bae6fd; }
-        
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- CONFIGURACIÓN PARA IMPRESIÓN (PDF) --- */
         @media print {
             .sidebar, .no-print, .btn-danger, .nav-btn, .btn-warning, .btn-success { display: none !important; }
             .main { margin-left: 0 !important; width: 100% !important; padding: 0 !important; }
@@ -49,17 +39,14 @@
         <button class="nav-btn" onclick="show('paca', this)"><i class="bi bi-mortarboard me-2"></i> Prod. Académicos</button>
         <button class="nav-btn" onclick="show('plab', this)"><i class="bi bi-cpu me-2"></i> Prod. Laborales</button>
         <button class="nav-btn" onclick="show('gar', this)"><i class="bi bi-tags me-2"></i> Venta Garage</button>
-        
         <button class="btn btn-success w-100 mt-4 shadow-sm fw-bold" onclick="prepararDescarga()">
             <i class="bi bi-download me-2"></i> DESCARGAR CV
         </button>
-
         <a href="/admin" class="btn btn-danger w-100 mt-2 shadow-sm"><i class="bi bi-gear-fill me-2"></i> AJUSTES</a>
     </nav>
 </div>
 
 <div class="main">
-
     <div id="inicio" class="section-view active">
         <div class="row align-items-center mb-5">
             <div class="col-md-3 text-center">
@@ -210,7 +197,6 @@
                         <h6 class="fw-bold mb-1">{{ i.nombreproducto }}</h6>
                         <p class="small text-muted mb-2">Estado: {{ i.estadoproducto }}</p>
                         <span class="badge bg-danger fs-5 w-100 mb-3">${{ i.valordelbien }}</span>
-                        
                         {% if i.descripcion %}
                             <p class="text-secondary small italic mb-0 border-top pt-2">{{ i.descripcion }}</p>
                         {% endif %}
@@ -228,16 +214,12 @@
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('btn-active'));
         document.getElementById(id).classList.add('active');
         btn.classList.add('btn-active');
-        
-        let confirmBtn = document.getElementById('confirm-print-btn');
-        if(confirmBtn) confirmBtn.remove();
     }
 
     function prepararDescarga() {
         document.querySelectorAll('.section-view').forEach(sec => {
             sec.style.display = 'block';
             sec.classList.remove('active');
-            
             if (!sec.querySelector('.btn-warning')) {
                 let btnOcultar = document.createElement("button");
                 btnOcultar.innerHTML = "❌ Quitar de la descarga";
@@ -258,7 +240,6 @@
             };
             document.body.appendChild(btnConfirmar);
         }
-        
         alert("INSTRUCCIONES:\n1. Oculta lo que NO desees con los botones naranjas.\n2. Al terminar, presiona el botón azul de abajo.");
     }
 </script>

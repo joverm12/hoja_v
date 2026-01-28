@@ -8,8 +8,8 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
-    'cloudinary_storage',  # PRIMERO: para manejar el almacenamiento
-    'cloudinary',          # SEGUNDO: para conectar con la API
+    'cloudinary_storage',  # Primero para el almacenamiento
+    'cloudinary',          # Segundo para la conexión API
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -63,18 +63,15 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
-# --- CONFIGURACIÓN DE CLOUDINARY (MEDIA) ---
-# Le dice a Django que NO use carpetas locales, sino la nube
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# --- CONFIGURACIÓN DE CLOUDINARY ---
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage' #
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'), #
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'), #
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'), #
 }
 
-# URL virtual para que Django sepa que son archivos multimedia
-MEDIA_URL = '/media/' 
+MEDIA_URL = '/media/' # La librería transforma esto automáticamente
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-COLLECTSTATIC_STORAGE = 'cloudinary_storage.storage.StaticCloudinaryStorage'
