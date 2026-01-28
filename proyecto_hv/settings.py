@@ -16,6 +16,8 @@ ALLOWED_HOSTS = ['*'] # En Render cámbialo por tu URL específica
 
 # Application definition
 INSTALLED_APPS = [
+    'cloudinary_storage', # Para fotos persistentes
+    'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -23,8 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'hv_app',
-    'cloudinary_storage', # Para fotos persistentes
-    'cloudinary',
+
 ]
 
 MIDDLEWARE = [
