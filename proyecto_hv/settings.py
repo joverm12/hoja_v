@@ -2,11 +2,13 @@ import os
 import dj_database_url
 from pathlib import Path
 
+# --- CONFIGURACIÓN BÁSICA ---
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-abkt2ns#zz0)%=*^%7-n5oihoq+h754!b=g1#fl!tp@s4o2zk+')
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['*']
 
+# --- APLICACIONES ---
 INSTALLED_APPS = [
     'cloudinary_storage',
     'cloudinary',
@@ -19,6 +21,7 @@ INSTALLED_APPS = [
     'hv_app',
 ]
 
+# --- MIDDLEWARE ---
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -48,6 +51,7 @@ TEMPLATES = [{
 
 WSGI_APPLICATION = 'proyecto_hv.wsgi.application'
 
+# --- BASE DE DATOS ---
 DATABASES = {
     'default': dj_database_url.config(
         default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
@@ -55,16 +59,18 @@ DATABASES = {
     )
 }
 
+# --- INTERNACIONALIZACIÓN ---
 LANGUAGE_CODE = 'es-ec'
 TIME_ZONE = 'America/Guayaquil'
 USE_I18N = True
 USE_TZ = True
 
-# --- ARCHIVOS ESTÁTICOS (Solución al error 404 del Admin) ---
+# --- ARCHIVOS ESTÁTICOS Y ALMACENAMIENTO ---
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
 
-# --- CONFIGURACIÓN DE ALMACENAMIENTO DJANGO 6.0 ---
+# SOLUCIÓN AL ERROR DE COMPILACIÓN (STATICFILES_STORAGE)
+# Definimos STORAGES para Django 6 y las variables viejas para Cloudinary
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
@@ -74,7 +80,11 @@ STORAGES = {
     },
 }
 
-# Compatibilidad para la librería de Cloudinary
+# Líneas críticas para que la librería no rompa la compilación
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# --- CREDENCIALES DE CLOUDINARY ---
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'drhblvng5',
     'API_KEY': '945383893211668',
