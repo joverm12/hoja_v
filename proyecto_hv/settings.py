@@ -1,22 +1,17 @@
 import os
-import dj_database_url # Necesitas instalar esto: pip install dj-database-url
+import dj_database_url
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SEGURIDAD: En Render usa una variable de entorno, localmente usa la tuya
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-abkt2ns#zz0)%=*^%7-n5oihoq+h754!b=g1#fl!tp@s4o2zk+')
 
-# DEBUG debe ser False en producción
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-# Permitir tu dominio de Render
-ALLOWED_HOSTS = ['*'] # En Render cámbialo por tu URL específica
+ALLOWED_HOSTS = ['*']
 
-
-# Application definition
 INSTALLED_APPS = [
-    'cloudinary_storage', # Para fotos persistentes
+    'cloudinary_storage',
     'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -25,12 +20,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'hv_app',
-
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # INDISPENSABLE para CSS/JS
+    # Quitamos WhiteNoise de aquí para que el administrador no se bloquee mientras arreglamos las fotos
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -58,8 +52,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'proyecto_hv.wsgi.application'
 
-
-# BASE DE DATOS: Usa SQLite local y PostgreSQL en Render automáticamente
 DATABASES = {
     'default': dj_database_url.config(
         default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
@@ -67,18 +59,16 @@ DATABASES = {
     )
 }
 
-# Configuración Regional (Ya la tenías bien)
 LANGUAGE_CODE = 'es-ec'
 TIME_ZONE = 'America/Guayaquil'
 USE_I18N = True
 USE_TZ = True
 
-# ARCHIVOS ESTÁTICOS
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
+# Usamos el almacenamiento más simple para evitar errores 404
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
-# MULTIMEDIA (Configuración para Cloudinary - Evita que se borren tus fotos)
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
