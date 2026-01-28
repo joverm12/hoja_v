@@ -94,7 +94,8 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'drhblvng5',
     'API_KEY': '945383893211668',
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'), #
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+    'PREFIX': 'media' # <--- AÑADE ESTA LÍNEA
 }
 
 MEDIA_URL = '/media/'
