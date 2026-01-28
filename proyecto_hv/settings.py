@@ -69,19 +69,18 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
 
-# SOLUCIÓN AL ERROR DE COMPILACIÓN (STATICFILES_STORAGE)
-# Definimos STORAGES para Django 6 y las variables viejas para Cloudinary
+# SOLUCIÓN DEFINITIVA PARA DJANGO 6.0 Y RENDER
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
 
-# Líneas críticas para que la librería no rompa la compilación
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Variables de compatibilidad para evitar el AttributeError
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # --- CREDENCIALES DE CLOUDINARY ---
