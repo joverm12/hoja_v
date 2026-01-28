@@ -4,14 +4,17 @@ from pathlib import Path
 
 # --- CONFIGURACIÓN BÁSICA ---
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-abkt2ns#zz0)%=*^%7-n5oihoq+h754!b=g1#fl!tp@s4o2zk+')
+
+# SEGURIDAD: Lee la clave real de Render o usa la de respaldo si estás en local
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-jover-moreira-2026-proyecto-final-hv') #
+
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['*']
 
 # --- APLICACIONES ---
 INSTALLED_APPS = [
-    'cloudinary_storage',
-    'cloudinary',
+    'cloudinary_storage', #
+    'cloudinary',        #
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -24,7 +27,7 @@ INSTALLED_APPS = [
 # --- MIDDLEWARE ---
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', #
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -44,7 +47,7 @@ TEMPLATES = [{
             'django.template.context_processors.request',
             'django.contrib.auth.context_processors.auth',
             'django.contrib.messages.context_processors.messages',
-            'django.template.context_processors.media',
+            'django.template.context_processors.media', #
         ],
     },
 }]
@@ -69,7 +72,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
 
-# SOLUCIÓN DEFINITIVA PARA DJANGO 6.0 Y RENDER
+# SOLUCIÓN DJANGO 6.0 + WHITE NOISE + CLOUDINARY
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
@@ -79,7 +82,7 @@ STORAGES = {
     },
 }
 
-# Variables de compatibilidad para evitar el AttributeError
+# Líneas de compatibilidad para evitar el AttributeError en Render
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
@@ -87,8 +90,12 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'drhblvng5',
     'API_KEY': '945383893211668',
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'), #
 }
 
 MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# --- LÍMITES DE SUBIDA ---
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
