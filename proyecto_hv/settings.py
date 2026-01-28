@@ -2,17 +2,12 @@ import os
 import dj_database_url
 from pathlib import Path
 
-# --- CONFIGURACIÓN BÁSICA ---
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # --- SEGURIDAD ---
-# Usa la clave de texto que pusiste en Render
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-jover-moreira-2026-proyecto-final-hv')
-
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['*']
-
-# Permiso para que Render acepte el envío de tus formularios
 CSRF_TRUSTED_ORIGINS = ['https://hoja-vida-36dy.onrender.com']
 
 # --- APLICACIONES ---
@@ -31,7 +26,7 @@ INSTALLED_APPS = [
 # --- MIDDLEWARE ---
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # Vital para los estilos
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -41,20 +36,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'proyecto_hv.urls'
-
-TEMPLATES = [{
-    'BACKEND': 'django.template.backends.django.DjangoTemplates',
-    'DIRS': [],
-    'APP_DIRS': True,
-    'OPTIONS': {
-        'context_processors': [
-            'django.template.context_processors.request',
-            'django.contrib.auth.context_processors.auth',
-            'django.contrib.messages.context_processors.messages',
-            'django.template.context_processors.media',
-        ],
-    },
-}]
 
 WSGI_APPLICATION = 'proyecto_hv.wsgi.application'
 
@@ -66,46 +47,33 @@ DATABASES = {
     )
 }
 
-# --- INTERNACIONALIZACIÓN ---
-LANGUAGE_CODE = 'es-ec'
-TIME_ZONE = 'America/Guayaquil'
-USE_I18N = True
-USE_TZ = True
-
-# --- ARCHIVOS ESTÁTICOS Y ALMACENAMIENTO ---
+# --- ESTÁTICOS Y CLOUDINARY ---
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
 
-# Configuración de Almacenamiento Django 6.0
+# Configuración simplificada para evitar errores de archivos faltantes
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
 
-# Compatibilidad de librerías
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-# --- CREDENCIALES DE CLOUDINARY ---
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'drhblvng5',
     'API_KEY': '945383893211668',
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
-    'PREFIX': 'media'  # Esto organiza tus archivos en la nube
+    'PREFIX': 'media'
 }
 
-MEDIA_URL = '/media/'
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# --- MANEJO DE SUBIDA DE ARCHIVOS (Evita Error 500 en Render) ---
-# Obliga a procesar la imagen en RAM y no en el disco de Render
+# --- MANEJO DE MEMORIA PARA SUBIDAS ---
+# Esto evita el Error 500 al guardar fotos en Render
 FILE_UPLOAD_HANDLERS = [
     "django.core.files.uploadhandler.MemoryFileUploadHandler",
     "django.core.files.uploadhandler.TemporaryFileUploadHandler",
 ]
-FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
-DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
+
+MEDIA_URL = '/media/'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
