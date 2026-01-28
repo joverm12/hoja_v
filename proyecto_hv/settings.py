@@ -77,3 +77,4 @@ CLOUDINARY_STORAGE = {
 MEDIA_URL = '/media/' 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+COLLECTSTATIC_STORAGE = 'cloudinary_storage.storage.StaticCloudinaryStorage'
