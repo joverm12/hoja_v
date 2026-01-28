@@ -5,14 +5,14 @@ from pathlib import Path
 # --- CONFIGURACIÓN BÁSICA ---
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# --- SEGURIDAD Y DOMINIOS ---
-# Reemplaza la URL de la base de datos por esta clave real
+# --- SEGURIDAD ---
+# Usa la clave de texto que pusiste en Render
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-jover-moreira-2026-proyecto-final-hv')
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['*']
 
-# LA PIEZA FALTANTE: Autoriza a Render para procesar tus formularios
+# Permiso para que Render acepte el envío de tus formularios
 CSRF_TRUSTED_ORIGINS = ['https://hoja-vida-36dy.onrender.com']
 
 # --- APLICACIONES ---
@@ -76,18 +76,18 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
 
-# CONFIGURACIÓN PARA DJANGO 6.0 + CLOUDINARY
+# Configuración de Almacenamiento Django 6.0
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
-# Líneas de compatibilidad para evitar el AttributeError
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+# Compatibilidad de librerías
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # --- CREDENCIALES DE CLOUDINARY ---
@@ -95,12 +95,17 @@ CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'drhblvng5',
     'API_KEY': '945383893211668',
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
-    'PREFIX': 'media' # <--- AÑADE ESTA LÍNEA
+    'PREFIX': 'media'  # Esto organiza tus archivos en la nube
 }
 
 MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# --- LÍMITES DE SUBIDA ---
+# --- MANEJO DE SUBIDA DE ARCHIVOS (Evita Error 500 en Render) ---
+# Obliga a procesar la imagen en RAM y no en el disco de Render
+FILE_UPLOAD_HANDLERS = [
+    "django.core.files.uploadhandler.MemoryFileUploadHandler",
+    "django.core.files.uploadhandler.TemporaryFileUploadHandler",
+]
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
