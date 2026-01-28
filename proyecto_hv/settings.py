@@ -59,23 +59,21 @@ TIME_ZONE = 'America/Guayaquil'
 USE_I18N = True
 USE_TZ = True
 
-# --- COPIA ESTO ---
+# --- COPIA Y REEMPLAZA ESTE FINAL ---
 STATIC_URL = 'static/'
-# Solo dejamos una ruta, la nueva para limpiar el caché
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
-
-# Esta es la configuración que pide Render para no fallar
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
-    'PREFIX': 'media'
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-MEDIA_URL = '/media/'
+
+# ESTA ES LA RUTA QUE TRAERÁ TU FOTO AL CÍRCULO:
+MEDIA_URL = 'https://res.cloudinary.com/drhbivng5/' 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# --- HASTA AQUÍ ---
