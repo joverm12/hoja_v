@@ -5,16 +5,20 @@ from pathlib import Path
 # --- CONFIGURACIÓN BÁSICA ---
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SEGURIDAD: Lee la clave real de Render o usa la de respaldo si estás en local
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-jover-moreira-2026-proyecto-final-hv') #
+# --- SEGURIDAD Y DOMINIOS ---
+# Reemplaza la URL de la base de datos por esta clave real
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-jover-moreira-2026-proyecto-final-hv')
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['*']
 
+# LA PIEZA FALTANTE: Autoriza a Render para procesar tus formularios
+CSRF_TRUSTED_ORIGINS = ['https://hoja-vida-36dy.onrender.com']
+
 # --- APLICACIONES ---
 INSTALLED_APPS = [
-    'cloudinary_storage', #
-    'cloudinary',        #
+    'cloudinary_storage',
+    'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -27,7 +31,7 @@ INSTALLED_APPS = [
 # --- MIDDLEWARE ---
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', #
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -47,7 +51,7 @@ TEMPLATES = [{
             'django.template.context_processors.request',
             'django.contrib.auth.context_processors.auth',
             'django.contrib.messages.context_processors.messages',
-            'django.template.context_processors.media', #
+            'django.template.context_processors.media',
         ],
     },
 }]
@@ -72,7 +76,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
 
-# SOLUCIÓN DJANGO 6.0 + WHITE NOISE + CLOUDINARY
+# CONFIGURACIÓN PARA DJANGO 6.0 + CLOUDINARY
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
@@ -82,7 +86,7 @@ STORAGES = {
     },
 }
 
-# Líneas de compatibilidad para evitar el AttributeError en Render
+# Líneas de compatibilidad para evitar el AttributeError
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
