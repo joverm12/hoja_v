@@ -63,7 +63,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
 
-# --- NUEVA CONFIGURACIÓN PARA DJANGO 6.0 ---
+# --- NUEVA CONFIGURACIÓN OBLIGATORIA PARA DJANGO 6.0 ---
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
