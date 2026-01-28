@@ -8,7 +8,8 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
-    'jazzmin',  # <--- Esto activa el nuevo diseño (DEBE IR PRIMERO)
+    'cloudinary',
+    'cloudinary_storage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -62,20 +63,15 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
-# --- CONFIGURACIÓN DE ALMACENAMIENTO LOCAL (Fotos y PDFs) ---
-DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+# --- CONFIGURACIÓN DE CLOUDINARY ---
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+}
+
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# --- CONFIGURACIÓN DE JAZZMIN (Diseño del Admin) ---
-JAZZMIN_SETTINGS = {
-    "site_title": "Admin Hoja de Vida",
-    "site_header": "Jover CV",
-    "site_brand": "Administración",
-    "welcome_sign": "Bienvenido al gestor de tu Hoja de Vida",
-    "copyright": "Jover CV Ltd",
-    "search_model": ["auth.User", "hv_app.Perfil"],
-    "show_ui_builder": True,
-}
