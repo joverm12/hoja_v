@@ -17,10 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from hv_app.views import home
-from django.conf import settings
-from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls), # Este es el botón de AJUSTES
+    path('admin/', admin.site.urls),
     path('', home, name='home'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+# HEMOS ELIMINADO LA LÍNEA DE STATIC Y MEDIA ROOT PARA QUE CLOUDINARY TOME EL CONTROL
