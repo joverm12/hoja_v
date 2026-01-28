@@ -76,7 +76,7 @@ USE_TZ = True
 # ARCHIVOS ESTÁTICOS
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
 
 # MULTIMEDIA (Configuración para Cloudinary - Evita que se borren tus fotos)
 CLOUDINARY_STORAGE = {
