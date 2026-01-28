@@ -8,6 +8,7 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
+    'jazzmin',  # <--- Esto activa el nuevo diseño (DEBE IR PRIMERO)
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -63,9 +64,18 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 # --- CONFIGURACIÓN DE ALMACENAMIENTO LOCAL (Fotos y PDFs) ---
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
-
 MEDIA_URL = '/media/'
-# Como está afuera, solo usamos BASE_DIR y 'media'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# --- CONFIGURACIÓN DE JAZZMIN (Diseño del Admin) ---
+JAZZMIN_SETTINGS = {
+    "site_title": "Admin Hoja de Vida",
+    "site_header": "Jover CV",
+    "site_brand": "Administración",
+    "welcome_sign": "Bienvenido al gestor de tu Hoja de Vida",
+    "copyright": "Jover CV Ltd",
+    "search_model": ["auth.User", "hv_app.Perfil"],
+    "show_ui_builder": True,
+}
